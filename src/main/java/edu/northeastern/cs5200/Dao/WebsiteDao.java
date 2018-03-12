@@ -1,6 +1,5 @@
 package edu.northeastern.cs5200.Dao;
 
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import edu.northeastern.cs5200.Model.Role;
 import edu.northeastern.cs5200.Model.Website;
 
 public class WebsiteDao{
@@ -38,6 +38,7 @@ public class WebsiteDao{
 			statement.setInt(6, website.getVisits());
             statement.setInt(7, developerId);
             rs = statement.executeUpdate();
+            RoleDao.getInstance().assignWebsiteRole(developerId, website.getId(), Role.owner.ordinal());
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -69,15 +70,8 @@ public class WebsiteDao{
 			statement = conn.prepareStatement(query);
 			rs = statement.executeQuery();
 			while(rs.next()) {
-				int id = rs.getInt("id");
-				String name = rs.getString("name");
-				String description = rs.getString("description");
-				Date created = rs.getDate("created");
-				Date updated = rs.getDate("updated");
-				int visits = rs.getInt("visits");
-                int developerId = rs.getInt("developerId");
-				Website website = new Website(id, name, description, created, updated, visits, developerId);
-				website.setPages(PageDao.getInstance().findPagesForWebsite(id));
+				Website website = new Website(rs.getInt("id"), rs.getString("name"), rs.getString("description"),rs.getDate("created"),rs.getDate("updated"),rs.getInt("visits"));
+				website.setPages(PageDao.getInstance().findPagesForWebsite(website.getId()));
                 websites.add(website);
 			}
 		} catch (ClassNotFoundException e) {
@@ -112,15 +106,9 @@ public class WebsiteDao{
 			statement.setInt(1,developerId);
 			rs = statement.executeQuery();
             while(rs.next()) {
-                int id = rs.getInt("id");
-                String name = rs.getString("name");
-                String description = rs.getString("description");
-                Date created = rs.getDate("created");
-                Date updated = rs.getDate("updated");
-                int visits = rs.getInt("visits");
-                Website website = new Website(id, name, description, created, updated, visits, developerId);
-                website.setPages(PageDao.getInstance().findPagesForWebsite(id));
-                websites.add(website);
+            	Website website = new Website(rs.getInt("id"), rs.getString("name"), rs.getString("description"),rs.getDate("created"),rs.getDate("updated"),rs.getInt("visits"));
+			website.setPages(PageDao.getInstance().findPagesForWebsite(website.getId()));
+            websites.add(website);
             }
 		
 		} catch (ClassNotFoundException e) {
@@ -155,15 +143,8 @@ public class WebsiteDao{
 			statement.setInt(1,websiteId);
 			rs = statement.executeQuery();
 			while(rs.next()) {
-				int id = rs.getInt("id");
-				String name = rs.getString("name");
-				String description = rs.getString("description");
-				Date created = rs.getDate("created");
-				Date updated = rs.getDate("updated");
-				int visits = rs.getInt("visits");
-                int developerId = rs.getInt("developerId");
-				web = new Website(id, name, description, created, updated, visits, developerId);
-				web.setPages(PageDao.getInstance().findPagesForWebsite(id));
+				web = new Website(rs.getInt("id"), rs.getString("name"), rs.getString("description"),rs.getDate("created"),rs.getDate("updated"),rs.getInt("visits"));
+				web.setPages(PageDao.getInstance().findPagesForWebsite(web.getId()));
 			}
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -191,7 +172,7 @@ public class WebsiteDao{
         try {
             Class.forName(BaseDao.DRIVER);
             conn = DriverManager.getConnection(BaseDao.URL, BaseDao.USERNAME, BaseDao.PASSWORD);
-			String query = "UPDATE website SET name = ?, description = ?, created = ?, updated = ?, visits = ? where id = ? ";
+			String query = "UPDATE website SET id = ?, name = ?, description = ?, created = ?, updated = ?, visits = ? where id = ? ";
 			statement = conn.prepareStatement(query);
 			statement.setString(1, website.getName());
 			statement.setString(2, website.getDescription());

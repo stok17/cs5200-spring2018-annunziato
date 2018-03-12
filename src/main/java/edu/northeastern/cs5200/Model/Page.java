@@ -1,5 +1,6 @@
 package edu.northeastern.cs5200.Model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.sql.Date;
 
@@ -10,19 +11,8 @@ public class Page {
 	private Date created;
 	private Date updated;
     private int views;
-    private int websiteId;
-	private Collection<Widget> widgets;
+	private Collection<Widget> widgets = new ArrayList<Widget>();
 	
-    public Page(int id, String title, String description, Date created, Date updated, int views, int websiteId) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.created = created;
-        this.updated = updated;
-        this.views = views;
-        this.websiteId = websiteId;
-    }
-
     public Page(int id, String title, String description, Date created, Date updated, int views) {
         this.id = id;
         this.title = title;
@@ -83,15 +73,7 @@ public class Page {
     public void setViews(int views) {
         this.views = views;
     }
-    
-    public int getWebsiteId() {
-        return websiteId;
-    }
-    
-    public void setWebsiteId(int websiteId) {
-        this.websiteId = websiteId;
-    }
-    
+        
     public Collection<Widget> getWidgets() {
         return widgets;
     }
@@ -99,4 +81,12 @@ public class Page {
     public void setWidgets(Collection<Widget> widgets) {
         this.widgets = widgets;
     }
+    
+	public void addWidget(Widget widget) {
+		this.widgets.add(widget);
+	}
+	
+	public void removeWidget(Widget widget) {
+		this.widgets.remove(widget);
+	}
 }

@@ -2,7 +2,6 @@ package edu.northeastern.cs5200.Dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -69,19 +68,12 @@ public class PageDao {
             conn = DriverManager.getConnection(BaseDao.URL, BaseDao.USERNAME, BaseDao.PASSWORD);
 			String query = "SELECT * FROM page";
 			statement = conn.prepareStatement(query);
-            rs = statement.executeQuery();
+            rs = statement.executeQuery();            
             while(rs.next()) {
-                int id = rs.getInt("id");
-                String title = rs.getString("title");
-                String description = rs.getString("description");
-                Date created = rs.getDate("created");
-                Date updated = rs.getDate("updated");
-                int views = rs.getInt("views");
-                int websiteId = rs.getInt("websiteId");
-                Page page = new Page(id, title, description, created, updated, views, websiteId);
-                page.setWidgets(WidgetDao.getInstance().findWidgetsForPage(id));
-                pages.add(page);
-            }
+            		Page page = new Page(rs.getInt("id"), rs.getString("title"), rs.getString("description"),rs.getDate("created"),rs.getDate("updated"), rs.getInt("views"));
+            		page.setWidgets(WidgetDao.getInstance().findWidgetsForPage(page.getId()));
+            		pages.add(page);
+    			}
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -114,15 +106,8 @@ public class PageDao {
 			statement.setInt(1, pageId);
             rs = statement.executeQuery();
             while(rs.next()) {
-                int id = rs.getInt("id");
-                String title = rs.getString("title");
-                String description = rs.getString("description");
-                Date created = rs.getDate("created");
-                Date updated = rs.getDate("updated");
-                int views = rs.getInt("views");
-                int websiteId = rs.getInt("websiteId");
-                page = new Page(id, title, description, created, updated, views, websiteId);
-                page.setWidgets(WidgetDao.getInstance().findWidgetsForPage(id));
+            		page = new Page(rs.getInt("id"), rs.getString("title"), rs.getString("description"),rs.getDate("created"),rs.getDate("updated"), rs.getInt("views"));
+            		page.setWidgets(WidgetDao.getInstance().findWidgetsForPage(page.getId()));
 			}
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -156,15 +141,9 @@ public class PageDao {
 			statement.setInt(1, websiteId);
 			rs = statement.executeQuery();
 			while(rs.next()) {
-				int id = rs.getInt("id");
-				String title = rs.getString("title");
-				String description = rs.getString("description");
-				Date created = rs.getDate("created");
-				Date updated = rs.getDate("updated");
-				int views = rs.getInt("views");
-				Page page = new Page(id, title, description, created, updated, views, websiteId);
-				page.setWidgets(WidgetDao.getInstance().findWidgetsForPage(id));
-                pages.add(page);
+				Page page = new Page(rs.getInt("id"), rs.getString("title"), rs.getString("description"),rs.getDate("created"),rs.getDate("updated"), rs.getInt("views"));
+        			page.setWidgets(WidgetDao.getInstance().findWidgetsForPage(page.getId()));
+        			pages.add(page);
 			}
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block

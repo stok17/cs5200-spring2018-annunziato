@@ -1,9 +1,9 @@
 package edu.northeastern.cs5200.Model;
 
 public class Widget {
+	public enum Type {others, youtube, image, heading, html}
+	
     private int id;
-    private int pageId;
-    protected String type;
     private String name;
     private int width;
     private int height;
@@ -11,11 +11,10 @@ public class Widget {
     private String cssStyle;
     private String text;
     private int order;
+    protected Type type;
     
-    public Widget(int id, int pageId, String name, int width, int height, String cssClass, String cssStyle, String text, int order) {
-        super();
+    public Widget(int id, String name, int width, int height, String cssClass, String cssStyle, String text, int order) {
         this.id = id;
-        this.pageId = pageId;
         this.name = name;
         this.width = width;
         this.height = height;
@@ -33,14 +32,6 @@ public class Widget {
         this.id = id;
     }
     
-    public int getPageId() {
-        return pageId;
-    }
-    
-    public void setPageId(int pageId) {
-        this.pageId = pageId;
-    }
-    
     public String getName() {
         return name;
     }
@@ -48,15 +39,7 @@ public class Widget {
     public void setName(String name) {
         this.name = name;
     }
-    
-    public String getType() {
-        return type;
-    }
-    
-    public void setType(String type) {
-        this.type = type;
-    }
-    
+  
     public int getWidth() {
         return width;
     }
@@ -103,5 +86,13 @@ public class Widget {
     
     public void setOrder(int order) {
         this.order = order;
+    }
+    
+    public Type getType() {
+        return type;
+    }
+    
+    public void setType(Type type) {
+        this.type = type;
     }
 }

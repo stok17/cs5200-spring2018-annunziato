@@ -1,5 +1,6 @@
 package edu.northeastern.cs5200.Model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.sql.Date;
 
@@ -10,8 +11,7 @@ public class Website {
 	private Date created;
 	private Date updated;
 	private int visits;
-    private int developerId;
-	private Collection<Page> pages;
+	private Collection<Page> pages = new ArrayList<Page>();
 	
 	public Website(int id, String name, String description, Date created, Date updated, int visits) {
 		this.id = id;
@@ -22,18 +22,6 @@ public class Website {
         this.visits = visits;
 	}
 	
-    public Website(int id, String name, String description, Date created, Date updated, int visits, int developerId) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.created = created;
-        this.updated = updated;
-        this.visits = visits;
-        this.developerId = developerId;
-    }
-    
-	
-
 	public int getId() {
 		return id;
 	}
@@ -82,19 +70,19 @@ public class Website {
 		this.visits = visits;
 	}
     
-    public int getDeveloperId() {
-        return developerId;
-    }
-    
-    public void setDeveloperId(int developerId) {
-        this.developerId = developerId;
-    }
-
 	public Collection<Page> getPages() {
 		return pages;
 	}
 
 	public void setPages(Collection<Page> pages) {
 		this.pages = pages;
+	}
+	
+	public void addPage(Page page) {
+		this.pages.add(page);
+	}
+	
+	public void removePage(Page page) {
+		this.pages.remove(page);
 	}
 }

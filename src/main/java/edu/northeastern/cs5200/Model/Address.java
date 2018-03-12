@@ -6,9 +6,9 @@ public class Address {
 	private String city;
 	private String state;
 	private String zip;
-	private int primary;
+	private boolean primary;
     
-	public Address(String street1, String street2, String city, String state, String zip, int primary) {
+	public Address(String street1, String street2, String city, String state, String zip, boolean primary) {
 		super();
 		this.street1 = street1;
 		this.street2 = street2;
@@ -51,10 +51,10 @@ public class Address {
 	public void setZip(String zip) {
 		this.zip = zip;
 	}
-	public int isPrimary() {
+	public boolean isPrimary() {
 		return primary;
 	}
-	public void setPrimary(int primary) {
+	public void setPrimary(boolean primary) {
 		this.primary = primary;
 	}
 }

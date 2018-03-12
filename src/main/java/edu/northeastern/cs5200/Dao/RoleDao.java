@@ -22,7 +22,7 @@ public class RoleDao {
         try {
             Class.forName(BaseDao.DRIVER);
             conn = DriverManager.getConnection(BaseDao.URL, BaseDao.USERNAME, BaseDao.PASSWORD);
-			String query = "INSERT INTO website_role (developerId, websiteId, roleId) VALUES(?,?,?)";
+			String query = "INSERT INTO role (developerId, websiteId, Role) VALUES(?,?,?)";
 			statement = conn.prepareStatement(query);
 			statement.setInt(1, developerId);
 			statement.setInt(2, websiteId);
@@ -54,42 +54,11 @@ public class RoleDao {
         try {
             Class.forName(BaseDao.DRIVER);
             conn = DriverManager.getConnection(BaseDao.URL, BaseDao.USERNAME, BaseDao.PASSWORD);
-			String query = "INSERT INTO page_role (developerId, pageId, roleId) VALUES(?,?,?)";
+			String query = "INSERT INTO role (developerId, pageId, Role) VALUES(?,?,?)";
 			statement = conn.prepareStatement(query);
 			statement.setInt(1, developerId);
 			statement.setInt(2, pageId);
             statement.setInt(3, roleId);
-			rs = statement.executeUpdate();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			try {
-				statement.close();
-				conn.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}	
-		}
-		return rs;
-	}
-	
-	public int updatePageRole(int developerId, int pageId, int roleId) {
-        int rs = 0;
-        Connection conn = null;
-        PreparedStatement statement = null;
-        try {
-            Class.forName(BaseDao.DRIVER);
-            conn = DriverManager.getConnection(BaseDao.URL, BaseDao.USERNAME, BaseDao.PASSWORD);
-			String query = "UPDATE page_role SET roleId = ? where developerId = ? and pageId = ?";
-			statement = conn.prepareStatement(query);
-            statement.setInt(1, roleId);
-			statement.setInt(2, developerId);
-			statement.setInt(3, pageId);
 			rs = statement.executeUpdate();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -116,7 +85,7 @@ public class RoleDao {
         try {
             Class.forName(BaseDao.DRIVER);
             conn = DriverManager.getConnection(BaseDao.URL, BaseDao.USERNAME, BaseDao.PASSWORD);
-			String query = "DELETE FROM website_role where developerId = ? AND websiteId = ? AND roleId = ?";
+			String query = "DELETE FROM role where developerId = ? AND websiteId = ? AND Role = ?";
 			statement = conn.prepareStatement(query);
 			statement.setInt(1, developerId);
 			statement.setInt(2, websiteId);
@@ -147,7 +116,7 @@ public class RoleDao {
         try {
             Class.forName(BaseDao.DRIVER);
             conn = DriverManager.getConnection(BaseDao.URL, BaseDao.USERNAME, BaseDao.PASSWORD);
-			String query = "DELETE FROM page_role where developerId = ? AND pageId = ? AND roleId = ?";
+			String query = "DELETE FROM role where developerId = ? AND pageId = ? AND Role = ?";
 			statement = conn.prepareStatement(query);
 			statement.setInt(1, developerId);
 			statement.setInt(2, pageId);
@@ -178,12 +147,12 @@ public class RoleDao {
         try {
             Class.forName(BaseDao.DRIVER);
             conn = DriverManager.getConnection(BaseDao.URL, BaseDao.USERNAME, BaseDao.PASSWORD);
-			String query = "UPDATE page_role " + 
+			String query = "UPDATE role " + 
 					"SET `developerId` = " + 
 					"CASE " + 
-					"	WHEN `page_role`.developerId = ? THEN ?  " + 
-					"	WHEN `page_role`.developerId = ? THEN ?  " + 
-					"	ELSE `page_role`.developerId  " + 
+					"	WHEN `role`.developerId = ? THEN ?  " + 
+					"	WHEN `role`.developerId = ? THEN ?  " + 
+					"	ELSE `role`.developerId  " + 
 					"END WHERE pageId = ?;";
             statement = conn.prepareStatement(query);
             statement.setInt(1, dev1Id);

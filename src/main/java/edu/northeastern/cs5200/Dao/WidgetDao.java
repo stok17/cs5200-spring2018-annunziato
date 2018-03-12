@@ -33,18 +33,18 @@ public class WidgetDao {
         try {
             Class.forName(BaseDao.DRIVER);
             conn = DriverManager.getConnection(BaseDao.URL, BaseDao.USERNAME, BaseDao.PASSWORD);
-            String query = "INSERT INTO widget (id, pageId, type, name, width, height, cssClass, cssStyle, text, `order`, url, sharable, expandable, src, size, html) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO widget (id, name, width, height, cssClass, cssStyle, text, `order`, pageId, type, url, sharable, expandable, src, size, html) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			statement = conn.prepareStatement(query);
-            statement.setInt(1, widget.getId());
-            statement.setInt(2, pageId);
-            statement.setString(3, widget.getType());
-            statement.setString(4, widget.getName());
-            statement.setInt(5, widget.getWidth());
-            statement.setInt(6, widget.getHeight());
-            statement.setString(7, widget.getCssClass());
-            statement.setString(8, widget.getCssStyle());
-            statement.setString(9, widget.getText());
-            statement.setInt(10, widget.getOrder());
+            statement.setInt(1, widget.getId());  
+            statement.setString(2, widget.getName());
+            statement.setInt(3, widget.getWidth());
+            statement.setInt(4, widget.getHeight());
+            statement.setString(5, widget.getCssClass());
+            statement.setString(6, widget.getCssStyle());
+            statement.setString(7, widget.getText());
+            statement.setInt(8, widget.getOrder());
+            statement.setInt(9, pageId);
+            statement.setString(10, widget.getType().name());
             if(widget instanceof YouTubeWidget) {
                 YouTubeWidget inst = (YouTubeWidget) widget;
                 statement.setString(11, inst.getUrl());
@@ -104,39 +104,24 @@ public class WidgetDao {
 			String query = "SELECT * FROM widget";
 			statement = conn.prepareStatement(query);
 			rs = statement.executeQuery();
-            while(rs.next()) {
-                int id = rs.getInt("id");
-                int pageId = rs.getInt("pageId");
-                String name = rs.getString("name");
+            while(rs.next()) {  
                 String type = rs.getString("type");
-                int width = rs.getInt("width");
-                int height = rs.getInt("height");
-                String cssClass = rs.getString("cssClass");
-                String cssStyle = rs.getString("cssStyle");
-                String text = rs.getString("text");
-                int order = rs.getInt("order");
-                String url = rs.getString("url");
-                boolean sharable = rs.getBoolean("sharable");
-                boolean expendable = rs.getBoolean("expandable");
-                String src = rs.getString("src");
-                int size = rs.getInt("size");
-                String html = rs.getString("html");
                 Widget widget = null;
                 switch(type) {
                     case "heading":
-                        widget = new HeadingWidget(id, pageId, name, width, height, cssClass, cssStyle, text, order, size);
+                        widget = new HeadingWidget(rs.getInt("id"), rs.getString("name"), rs.getInt("width"), rs.getInt("height"), rs.getString("cssClass"), rs.getString("cssStyle"), rs.getString("text"), rs.getInt("order"), rs.getInt("size"));
                         break;
                     case "html":
-                        widget = new HtmlWidget(id, pageId, name, width, height, cssClass, cssStyle, text, order, html);
+                        widget = new HtmlWidget(rs.getInt("id"), rs.getString("name"), rs.getInt("width"), rs.getInt("height"), rs.getString("cssClass"), rs.getString("cssStyle"), rs.getString("text"), rs.getInt("order"), rs.getString("html"));
                         break;
                     case "youtube":
-                        widget = new YouTubeWidget(id, pageId, name, width, height, cssClass, cssStyle, text, order, src, sharable, expendable);
+                        widget = new YouTubeWidget(rs.getInt("id"), rs.getString("name"), rs.getInt("width"), rs.getInt("height"), rs.getString("cssClass"), rs.getString("cssStyle"), rs.getString("text"), rs.getInt("order"), rs.getString("src"), rs.getBoolean("sharable"), rs.getBoolean("expandable"));
                         break;
                     case "image":
-                        widget = new ImageWidget(id, pageId, name, width, height, cssClass, cssStyle, text, order, url);
+                        widget = new ImageWidget(rs.getInt("id"), rs.getString("name"), rs.getInt("width"), rs.getInt("height"), rs.getString("cssClass"), rs.getString("cssStyle"), rs.getString("text"), rs.getInt("order"), rs.getString("url"));
                         break;
                     default:
-                        widget = new Widget(id, pageId, name, width, height, cssClass, cssStyle, text, order);
+                        widget = new Widget(rs.getInt("id"), rs.getString("name"), rs.getInt("width"), rs.getInt("height"), rs.getString("cssClass"), rs.getString("cssStyle"), rs.getString("text"), rs.getInt("order"));
                         break;
                 }
                 widgets.add(widget);
@@ -173,37 +158,22 @@ public class WidgetDao {
             statement.setInt(1, widgetId);
             rs = statement.executeQuery();
             while(rs.next()) {
-                int id = rs.getInt("id");
-                int pageId = rs.getInt("pageId");
-                String name = rs.getString("name");
-                String type = rs.getString("type");
-                int width = rs.getInt("width");
-                int height = rs.getInt("height");
-                String cssClass = rs.getString("cssClass");
-                String cssStyle = rs.getString("cssStyle");
-                String text = rs.getString("text");
-                int order = rs.getInt("order");
-                String url = rs.getString("url");
-                boolean sharable = rs.getBoolean("sharable");
-                boolean expendable = rs.getBoolean("expandable");
-                String src = rs.getString("src");
-                int size = rs.getInt("size");
-                String html = rs.getString("html");
+            	String type = rs.getString("type");
                 switch(type) {
                     case "heading":
-                        widget = new HeadingWidget(id, pageId, name, width, height, cssClass, cssStyle, text, order, size);
+                        widget = new HeadingWidget(rs.getInt("id"), rs.getString("name"), rs.getInt("width"), rs.getInt("height"), rs.getString("cssClass"), rs.getString("cssStyle"), rs.getString("text"), rs.getInt("order"), rs.getInt("size"));
                         break;
                     case "html":
-                        widget = new HtmlWidget(id, pageId, name, width, height, cssClass, cssStyle, text, order, html);
+                        widget = new HtmlWidget(rs.getInt("id"), rs.getString("name"), rs.getInt("width"), rs.getInt("height"), rs.getString("cssClass"), rs.getString("cssStyle"), rs.getString("text"), rs.getInt("order"), rs.getString("html"));
                         break;
                     case "youtube":
-                        widget = new YouTubeWidget(id, pageId, name, width, height, cssClass, cssStyle, text, order, src, sharable, expendable);
+                        widget = new YouTubeWidget(rs.getInt("id"), rs.getString("name"), rs.getInt("width"), rs.getInt("height"), rs.getString("cssClass"), rs.getString("cssStyle"), rs.getString("text"), rs.getInt("order"), rs.getString("src"), rs.getBoolean("sharable"), rs.getBoolean("expandable"));
                         break;
                     case "image":
-                        widget = new ImageWidget(id, pageId, name, width, height, cssClass, cssStyle, text, order, url);
+                        widget = new ImageWidget(rs.getInt("id"), rs.getString("name"), rs.getInt("width"), rs.getInt("height"), rs.getString("cssClass"), rs.getString("cssStyle"), rs.getString("text"), rs.getInt("order"), rs.getString("url"));
                         break;
                     default:
-                        widget = new Widget(id, pageId, name, width, height, cssClass, cssStyle, text, order);
+                        widget = new Widget(rs.getInt("id"), rs.getString("name"), rs.getInt("width"), rs.getInt("height"), rs.getString("cssClass"), rs.getString("cssStyle"), rs.getString("text"), rs.getInt("order"));
                         break;
                 }
             }
@@ -236,40 +206,26 @@ public class WidgetDao {
 			statement.setInt(1, pageId);
 			rs = statement.executeQuery();
             while(rs.next()) {
-                int id = rs.getInt("id");
-                String name = rs.getString("name");
-                String type = rs.getString("type");
-                int width = rs.getInt("width");
-                int height = rs.getInt("height");
-                String cssClass = rs.getString("cssClass");
-                String cssStyle = rs.getString("cssStyle");
-                String text = rs.getString("text");
-                int order = rs.getInt("order");
-                String url = rs.getString("url");
-                boolean sharable = rs.getBoolean("sharable");
-                boolean expendable = rs.getBoolean("expandable");
-                String src = rs.getString("src");
-                int size = rs.getInt("size");
-                String html = rs.getString("html");
+            	String type = rs.getString("type");
                 Widget widget = null;
                 switch(type) {
                     case "heading":
-                        widget = new HeadingWidget(id, pageId, name, width, height, cssClass, cssStyle, text, order, size);
+                        widget = new HeadingWidget(rs.getInt("id"), rs.getString("name"), rs.getInt("width"), rs.getInt("height"), rs.getString("cssClass"), rs.getString("cssStyle"), rs.getString("text"), rs.getInt("order"), rs.getInt("size"));
                         break;
                     case "html":
-                        widget = new HtmlWidget(id, pageId, name, width, height, cssClass, cssStyle, text, order, html);
+                        widget = new HtmlWidget(rs.getInt("id"), rs.getString("name"), rs.getInt("width"), rs.getInt("height"), rs.getString("cssClass"), rs.getString("cssStyle"), rs.getString("text"), rs.getInt("order"), rs.getString("html"));
                         break;
                     case "youtube":
-                        widget = new YouTubeWidget(id, pageId, name, width, height, cssClass, cssStyle, text, order, url, sharable, expendable);
+                        widget = new YouTubeWidget(rs.getInt("id"), rs.getString("name"), rs.getInt("width"), rs.getInt("height"), rs.getString("cssClass"), rs.getString("cssStyle"), rs.getString("text"), rs.getInt("order"), rs.getString("src"), rs.getBoolean("sharable"), rs.getBoolean("expandable"));
                         break;
                     case "image":
-                        widget = new ImageWidget(id, pageId, name, width, height, cssClass, cssStyle, text, order, src);
+                        widget = new ImageWidget(rs.getInt("id"), rs.getString("name"), rs.getInt("width"), rs.getInt("height"), rs.getString("cssClass"), rs.getString("cssStyle"), rs.getString("text"), rs.getInt("order"), rs.getString("url"));
                         break;
                     default:
-                        widget = new Widget(id, pageId, name, width, height, cssClass, cssStyle, text, order);
+                        widget = new Widget(rs.getInt("id"), rs.getString("name"), rs.getInt("width"), rs.getInt("height"), rs.getString("cssClass"), rs.getString("cssStyle"), rs.getString("text"), rs.getInt("order"));
                         break;
                 }
-				widgets.add(widget);
+                widgets.add(widget);
 			}
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -297,46 +253,45 @@ public class WidgetDao {
         try {
             Class.forName(BaseDao.DRIVER);
             conn = DriverManager.getConnection(BaseDao.URL, BaseDao.USERNAME, BaseDao.PASSWORD);
-			String query = "UPDATE widget SET pageId = ?, type = ?, name = ?, width = ?, height = ?, cssClass = ?, cssStyle = ?, text = ?, `order` =?,  url = ?, sharable = ?, expandable = ?, src = ?, size = ?, html = ? WHERE id = ?";
+			String query = "UPDATE widget SET name = ?, width = ?, height = ?, cssClass = ?, cssStyle = ?, text = ?, `order` =?, type = ?, url = ?, sharable = ?, expandable = ?, src = ?, size = ?, html = ? WHERE id = ?";
             statement = conn.prepareStatement(query);
-            statement.setInt(1, widget.getPageId());
-            statement.setString(2, widget.getType());
-            statement.setString(3, widget.getName());
-            statement.setInt(4, widget.getWidth());
-            statement.setInt(5, widget.getHeight());
-            statement.setString(6, widget.getCssClass());
-            statement.setString(7, widget.getCssStyle());
-            statement.setString(8, widget.getText());
-            statement.setInt(9, widget.getOrder());
+            statement.setString(1, widget.getName());
+            statement.setInt(2, widget.getWidth());
+            statement.setInt(3, widget.getHeight());
+            statement.setString(4, widget.getCssClass());
+            statement.setString(5, widget.getCssStyle());
+            statement.setString(6, widget.getText());
+            statement.setInt(7, widget.getOrder());
+            statement.setString(8, widget.getType().name());
             if(widget instanceof YouTubeWidget) {
                 YouTubeWidget inst = (YouTubeWidget) widget;
-                statement.setString(10, inst.getUrl());
-                statement.setBoolean(11, inst.issharable());
-                statement.setBoolean(12, inst.isExpandable());
+                statement.setString(9, inst.getUrl());
+                statement.setBoolean(10, inst.issharable());
+                statement.setBoolean(11, inst.isExpandable());
             } else {
-                statement.setString(10, "");
+                statement.setString(9, "");
+                statement.setBoolean(10, false);
                 statement.setBoolean(11, false);
-                statement.setBoolean(12, false);
             }
             if(widget instanceof ImageWidget) {
                 ImageWidget inst = (ImageWidget) widget;
-                statement.setString(13, inst.getSrc());
+                statement.setString(12, inst.getSrc());
             } else {
-                statement.setString(13, "");
+                statement.setString(12, "");
             }
             if(widget instanceof HeadingWidget) {
                 HeadingWidget inst = (HeadingWidget) widget;
-                statement.setInt(14, inst.getSize());
+                statement.setInt(13, inst.getSize());
             } else {
-                statement.setInt(14, 0);
+                statement.setInt(13, 0);
             }
             if(widget instanceof HtmlWidget) {
                 HtmlWidget inst = (HtmlWidget) widget;
-                statement.setString(15, inst.getHtml());
+                statement.setString(14, inst.getHtml());
             } else {
-                statement.setString(15, "");
+                statement.setString(14, "");
             }
-            statement.setInt(16, widgetId);
+            statement.setInt(15, widgetId);
 			rs = statement.executeUpdate();
 			
 		} catch (ClassNotFoundException e) {

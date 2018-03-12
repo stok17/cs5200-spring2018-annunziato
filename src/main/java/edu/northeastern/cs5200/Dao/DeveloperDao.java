@@ -159,9 +159,9 @@ public class DeveloperDao{
 			statement.setInt(1, developerId);
 			rs = statement.executeQuery();
 			while(rs.next()) {
-                    Developer developer = new Developer(rs.getInt("id"), rs.getString("username"), rs.getString("password"),rs.getString("firstName"),rs.getString("lastName"), rs.getString("email"),rs.getDate("dob"),rs.getString("developerKey"));
-                    developer.setWebsites(WebsiteDao.getInstance().findWebsitesForDeveloper(developer.getId()));
-                    dev = developer;
+				Developer developer = new Developer(rs.getInt("id"), rs.getString("username"), rs.getString("password"),rs.getString("firstName"),rs.getString("lastName"), rs.getString("email"),rs.getDate("dob"),rs.getString("developerKey"));
+                developer.setWebsites(WebsiteDao.getInstance().findWebsitesForDeveloper(developer.getId()));
+                dev = developer;
 			}
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block

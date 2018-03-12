@@ -1,0 +1,14 @@
+SET FOREIGN_KEY_CHECKS = 0;
+TRUNCATE `hw3_liu_siyu_spring_2018`.`person`;
+TRUNCATE `hw3_liu_siyu_spring_2018`.`address`;
+TRUNCATE `hw3_liu_siyu_spring_2018`.`developer`;
+TRUNCATE `hw3_liu_siyu_spring_2018`.`page`;
+TRUNCATE `hw3_liu_siyu_spring_2018`.`phone`;
+TRUNCATE `hw3_liu_siyu_spring_2018`.`user`;
+TRUNCATE `hw3_liu_siyu_spring_2018`.`website`;
+TRUNCATE `hw3_liu_siyu_spring_2018`.`widget`;
+TRUNCATE `hw3_liu_siyu_spring_2018`.`role`;
+TRUNCATE `hw3_liu_siyu_spring_2018`.`priviledge`;
+INSERT INTO `hw3_liu_siyu_spring_2018`.`address` VALUES (1, "", "", "", "", "", 1, 1);
+INSERT INTO `hw3_liu_siyu_spring_2018`.`phone` VALUES (1, '2333', 1, 3);
+SET FOREIGN_KEY_CHECKS = 1;

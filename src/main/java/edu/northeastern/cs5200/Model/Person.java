@@ -1,5 +1,6 @@
 package edu.northeastern.cs5200.Model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.sql.Date;
 
@@ -12,11 +13,10 @@ public class Person {
 	private String lastName;
 	private String email;
 	private Date dob;
-	private Collection<Phone> phones;
-    private Collection<Address> addresses;
+	private Collection<Phone> phones = new ArrayList<Phone>();
+    private Collection<Address> addresses = new ArrayList<Address>();
 
     public Person(int id, String username, String password, String firstName, String lastName, String email, Date dob) {
-		super();
 		this.id = id;
 		this.username = username;
 		this.password = password;
@@ -101,4 +101,20 @@ public class Person {
     public void setAddresses(Collection<Address> addresses) {
         this.addresses = addresses;
     }
+    
+	public void addPhone(Phone phone) {
+		this.phones.add(phone);
+	}
+	
+	public void removePhone(Phone phone) {
+		this.phones.remove(phone);
+	}
+	
+	public void addAddress(Address address) {
+		this.addresses.add(address);
+	}
+	
+	public void removeAddress(Address address) {
+		this.addresses.remove(address);
+	}
 }

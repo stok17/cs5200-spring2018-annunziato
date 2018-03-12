@@ -22,8 +22,8 @@ public class PriviledgeDao {
         try {
             Class.forName(BaseDao.DRIVER);
             conn = DriverManager.getConnection(BaseDao.URL, BaseDao.USERNAME, BaseDao.PASSWORD);
-			String ASSIGN_WEBSITE_PRIVILEDGE = "INSERT INTO website_priviledge (developerId, websiteId, priviledgeId), VALUES(?,?,?)";
-			statement = conn.prepareStatement(ASSIGN_WEBSITE_PRIVILEDGE);
+			String query = "INSERT INTO priviledge (developerId, websiteId, priviledge), VALUES(?,?,?)";
+			statement = conn.prepareStatement(query);
 			statement.setInt(1, developerId);
 			statement.setInt(2, websiteId);
             statement.setInt(3, priviledgeId);
@@ -53,7 +53,7 @@ public class PriviledgeDao {
         try {
             Class.forName(BaseDao.DRIVER);
             conn = DriverManager.getConnection(BaseDao.URL, BaseDao.USERNAME, BaseDao.PASSWORD);
-			String query = "INSERT INTO page_priviledge (developerId, pageId, priviledgeId), VALUES(?,?,?)";
+			String query = "INSERT INTO priviledge (developerId, pageId, priviledge), VALUES(?,?,?)";
 			statement = conn.prepareStatement(query);
 			statement.setInt(1, developerId);
 			statement.setInt(2, pageId);
@@ -84,7 +84,7 @@ public class PriviledgeDao {
         try {
             Class.forName(BaseDao.DRIVER);
             conn = DriverManager.getConnection(BaseDao.URL, BaseDao.USERNAME, BaseDao.PASSWORD);
-			String query = "DELETE FROM website_priviledge where developerId = ? AND websiteId = ? AND priviledgeId = ?";
+			String query = "DELETE FROM priviledge where developerId = ? AND websiteId = ? AND priviledge = ?";
 			statement = conn.prepareStatement(query);
 			statement.setInt(1, developerId);
 			statement.setInt(2, websiteId);
@@ -115,7 +115,7 @@ public class PriviledgeDao {
         try {
             Class.forName(BaseDao.DRIVER);
             conn = DriverManager.getConnection(BaseDao.URL, BaseDao.USERNAME, BaseDao.PASSWORD);
-			String query = "DELETE FROM website_priviledge where developerId = ? AND pageId = ? AND priviledgeId = ?";
+			String query = "DELETE FROM priviledge where developerId = ? AND pageId = ? AND priviledge = ?";
 			statement = conn.prepareStatement(query);
 			statement.setInt(1, developerId);
 			statement.setInt(2, pageId);
